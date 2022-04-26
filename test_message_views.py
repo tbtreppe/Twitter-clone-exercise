@@ -49,7 +49,7 @@ class MessageViewTestCase(TestCase):
                                     password="testuser",
                                     image_url=None)
         self.testuser_id = 1122
-        self.testuser_id = self.testuser_id
+        self.testuser.id = self.testuser_id
 
         db.session.commit()
 
@@ -141,12 +141,11 @@ class MessageViewTestCase(TestCase):
             with c.session_transaction() as sess:
                 sess[CURR_USER_KEY] = 4455
             
-                resp= c.post("/messages/1234/delete", follow_redirects=True)
-                self.assertEqual(resp.status_code, 200)
-                self.assertIn("Access unauthorized", str(resp.data))
-
-                m = Message.query.get(1234)
-                self.assertIsNone(m)
+            resp= c.post("/messages/1234/delete", follow_redirects=True)
+            self.assertEqual(resp.status_code, 200)
+            self.assertIn("Access unauthorized", str(resp.data))
+            m = Message.query.get(1234)
+            self.assertIsNotNone(m)
 
 
 
