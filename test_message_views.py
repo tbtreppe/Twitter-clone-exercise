@@ -49,7 +49,7 @@ class MessageViewTestCase(TestCase):
                                     password="testuser",
                                     image_url=None)
         self.testuser_id = 1122
-        self.testuser_id = self.testuser_id
+        self.testuser.id = self.testuser_id
 
         db.session.commit()
 
@@ -146,7 +146,7 @@ class MessageViewTestCase(TestCase):
                 self.assertIn("Access unauthorized", str(resp.data))
 
                 m = Message.query.get(1234)
-                self.assertIsNone(m)
+                self.assertIsNotNone(m)
 
 
 
